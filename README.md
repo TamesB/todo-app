@@ -1,2 +1,2 @@
 # TODO App
-A basic application boilerplate made with Django REST, React, Redux, and Semantic UI.
+A basic todo application boilerplate made with Django REST, React Hooks, Redux, and Semantic UI.
