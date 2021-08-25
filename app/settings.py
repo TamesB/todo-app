@@ -97,16 +97,16 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # For Heroku hosting, switch 'default' and 'extra' to switch database options.
 DATABASES = {
     # Extra local database
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
+    #'default': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #},
     
     # environment variable database (Database URI's)
-    #'default': {
-    #    'NAME': env.db,
-    #    "ENGINE": "django.db.backends.postgresql_psycopg2",
-    #}
+    'default': {
+        'NAME': env.db,
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+    }
 }
 
 
