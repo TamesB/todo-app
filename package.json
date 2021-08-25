@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development --entry ./application/frontend/src/index.js --output-path ./application/frontend/static/frontend",
-    "build": "webpack --mode production --entry ./application/frontend/src/index.js --output-path ./application/frontend/static/frontend",
+    "dev": "webpack --mode development --entry ./frontend/src/index.js --output-path ./frontend/static/frontend",
+    "build": "webpack --mode production --entry ./frontend/src/index.js --output-path ./frontend/static/frontend",
     "start": "craco start",
     "cbuild": "craco build",
     "test": "craco test",
