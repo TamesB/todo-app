@@ -2,6 +2,7 @@
 A single-page web application to create multiple ToDo lists, keeping track of your ToDo's and completing them. Accessible on every device with your personal account, no downloads.
 
 ## [Live Demo](http://todoboon.herokuapp.com/)
+Live demo hosted on free Heroku environment. May take a few minutes to load 
 
 # Features
 - Full authentication (Login, Register, Log out)
