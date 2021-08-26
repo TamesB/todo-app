@@ -1,7 +1,5 @@
 # Introduction
-A web application to create multiple ToDo lists, keeping track of your ToDo's and completing them. Accessible on every device with your personal account.
-Backend: Django REST
-Frontend: React Hooks, Redux, and Semantic UI
+A web application to create multiple ToDo lists, keeping track of your ToDo's and completing them. Accessible on every device with your personal account, no downloads.
 
 ## [Live Demo](http://todoboon.herokuapp.com/)
 
@@ -12,6 +10,10 @@ Frontend: React Hooks, Redux, and Semantic UI
 - Tap on added TODO item to toggle completion
 - Failsafe notification messages (empty form inputs, password matching)
 - Fully responsive
+
+# Technologies
+- Backend: Django REST
+- Frontend: React Hooks, Redux, and Semantic UI
 
 # Deploy to Heroku
 This application is Heroku-ready. Deploy environment with GitHub repo and set environment variables `DEBUG`, `DISABLE_COLLECTSTATIC`, `DATABASE_URL` and `SECRET_KEY`
