@@ -28,9 +28,15 @@ export function TodoTabs(props) {
     pane(tab.tab, () => <Todos {...props} />)
   );
 
+  const add_padding = {
+    padding: "5vh 0 0",
+  };
+
   return (
     <Fragment>
-      <Tab panes={panes} onTabChange={handleTabChange} />
+      <div style={add_padding}>
+        <Tab panes={panes} onTabChange={handleTabChange} />
+      </div>
     </Fragment>
   );
 }

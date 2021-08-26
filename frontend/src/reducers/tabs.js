@@ -10,7 +10,7 @@ import {
 const initialState = {
   tabs: [],
   addTabLoading: false,
-  activeTab: null,
+  activeTab: 0,
 };
 
 export default function (state = initialState, action) {

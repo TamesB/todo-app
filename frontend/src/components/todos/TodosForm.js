@@ -1,24 +1,31 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { addTodo, deleteTodo, toggleCompleteTodo } from "../../actions/todos";
 import { addTodoLoading } from "../../reducers/todos";
-import { addTab } from "../../actions/tabs";
+import { addTab, getTabs } from "../../actions/tabs";
 import { Fragment } from "react/cjs/react.production.min";
-import { Header, Form, Button, Label } from "semantic-ui-react";
+import { Header, Form, Button, Label, Modal } from "semantic-ui-react";
 
 export function TodosForm(props) {
   const [message, setMessage] = useState("");
   const [tab, setTabName] = useState("");
+  const [openTabModal, setOpenTabModal] = useState(false);
+  const [openAddTODOModal, setOpenAddTODOModal] = useState(false);
 
   const onChangeMessage = (e) => setMessage(e.target.value);
   const onChangeTab = (e) => setTabName(e.target.value);
+
+  useEffect(() => {
+    props.getTabs(props.user.id);
+  }, []);
 
   const onMessageSubmit = (e) => {
     e.preventDefault();
     const todo = { message: message, tab: props.activeTab };
     props.addTodo(todo);
     setMessage("");
+    setOpenAddTODOModal(false);
   };
 
   const onTabSubmit = (e) => {
@@ -26,46 +33,92 @@ export function TodosForm(props) {
     const tabname = { tab };
     props.addTab(tabname);
     setTabName("");
-  };
-
-  const form_padding = {
-    padding: "0 10vw 3vh 10vw",
+    setOpenTabModal(false);
   };
 
   return (
     <Fragment>
-      <div style={form_padding}>
-        {props.activeTab && (
+      <Button.Group floated="left">
+        {props.activeTab !== 0 && (
           <>
-            <Header as="h2">Add TODO</Header>
-            <Form onSubmit={onMessageSubmit}>
-              <Form.Input
-                type="message"
-                name="message"
-                label=""
-                onChange={onChangeMessage}
-                value={message}
-              />
-              <Button type="submit" primary loading={props.addTodoLoading}>
-                Submit
-              </Button>
-            </Form>
+            <Button positive onClick={() => setOpenAddTODOModal(true)}>
+              Add Todo
+            </Button>
+            <Modal
+              as={Form}
+              onClose={() => {
+                setOpenAddTODOModal(false);
+              }}
+              open={openAddTODOModal}
+              onSubmit={onMessageSubmit}
+            >
+              <Modal.Header>Add TODO</Modal.Header>
+              <Modal.Content>
+                <Modal.Description>
+                  <Form.Input
+                    type="message"
+                    name="message"
+                    placeholder="Take trash out..."
+                    label=""
+                    onChange={onChangeMessage}
+                    value={message}
+                  />
+                </Modal.Description>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button
+                  content="Add"
+                  labelPosition="right"
+                  icon="checkmark"
+                  type="Submit"
+                  positive
+                  loading={props.addTodoLoading}
+                />
+              </Modal.Actions>
+            </Modal>
           </>
         )}
-        <Header as="h2">Add List</Header>
-        <Form onSubmit={onTabSubmit}>
-          <Form.Input
-            type="tab"
-            name="tab"
-            label=""
-            onChange={onChangeTab}
-            value={tab}
+      </Button.Group>
+      <Button.Group floated="right">
+        <Button
+          positive
+          onClick={() => {
+            setOpenTabModal(true);
+          }}
+        >
+          Add List
+        </Button>
+      </Button.Group>
+      <Modal
+        as={Form}
+        onClose={() => setOpenTabModal(false)}
+        open={openTabModal}
+        onSubmit={onTabSubmit}
+      >
+        <Modal.Header>Add List</Modal.Header>
+        <Modal.Content>
+          <Modal.Description>
+            <Form.Input
+              type="tab"
+              name="tab"
+              placeholder="Household..."
+              label=""
+              onChange={onChangeTab}
+              value={tab}
+            />{" "}
+          </Modal.Description>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+            content="Add"
+            labelPosition="right"
+            icon="checkmark"
+            type="Submit"
+            positive
+            loading={props.addTabLoading}
           />
-          <Button type="submit" primary loading={props.addTabLoading}>
-            Submit
-          </Button>
-        </Form>
-      </div>
+        </Modal.Actions>
+      </Modal>
     </Fragment>
   );
 }
@@ -74,17 +127,20 @@ TodosForm.propTypes = {
   addTodo: PropTypes.func.isRequired,
   addTab: PropTypes.func.isRequired,
   activeTab: PropTypes.number.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   addTodoLoading: state.todos.addTodoLoading,
   addTabLoading: state.tabs.addTabLoading,
   activeTab: state.tabs.activeTab,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, {
   addTodo,
   addTab,
+  getTabs,
   deleteTodo,
   toggleCompleteTodo,
 })(TodosForm);
