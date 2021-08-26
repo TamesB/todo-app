@@ -11,9 +11,9 @@ import {
 import { tokenConfig } from "./auth";
 
 // GET TODOS
-export const getTodos = (user_id) => (dispatch, getState) => {
+export const getTodos = (user_id, activeTab) => (dispatch, getState) => {
   axios
-    .get(`/api/todos/?owner=${user_id}`, tokenConfig(getState))
+    .get(`/api/todos/?owner=${user_id}&tab=${activeTab}`, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: GET_TODOS,
@@ -50,7 +50,7 @@ export const addTodo = (todo) => (dispatch, getState) => {
 
     return dispatch({ type: ADD_TODO_FAIL });
   }
-
+  console.log(todo);
   axios
     .post(`/api/todos/`, todo, tokenConfig(getState))
     .then((res) => {

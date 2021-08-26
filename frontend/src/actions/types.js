@@ -19,3 +19,11 @@ export const ADD_TODO_FAIL = "ADD_TODO_FAIL";
 export const ADD_TODO_LOADING = "ADD_TODO_LOADING";
 export const COMPLETE_TODO = "COMPLETE_TODO";
 export const GET_ERRORS = "GET_ERRORS";
+
+// CRUD tabs
+export const GET_TABS = "GET_TABS";
+export const DELETE_TAB = "DELETE_TAB";
+export const ADD_TAB = "ADD_TAB";
+export const ADD_TAB_FAIL = "ADD_TAB_FAIL";
+export const ADD_TAB_LOADING = "ADD_TAB_LOADING";
+export const CHANGE_TABS = "CHANGE_TABS";

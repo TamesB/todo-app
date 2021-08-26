@@ -1,13 +1,12 @@
-import React, { Component, Fragment, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getTodos, deleteTodo, toggleCompleteTodo } from "../../actions/todos";
-import { Header, Table, Button, Icon } from "semantic-ui-react";
-import { usePrevious } from "../../customhooks/usePrevious.js";
+import { Header, Table, Button, Icon, Tab } from "semantic-ui-react";
 
 export function Todos(props) {
   useEffect(() => {
-    props.getTodos(props.user.id);
+    props.getTodos(props.user.id, props.activeTab);
   }, []);
 
   const onCompleteTodo = (todo) => {
@@ -15,7 +14,7 @@ export function Todos(props) {
   };
 
   return (
-    <Fragment>
+    <>
       <Table striped>
         <Table.Header>
           <Table.Row>
@@ -24,7 +23,6 @@ export function Todos(props) {
             <Table.HeaderCell>&nbsp;</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-
         <Table.Body>
           {props.todos.map((todo) => (
             <Table.Row
@@ -53,14 +51,14 @@ export function Todos(props) {
           ))}
         </Table.Body>
       </Table>
-    </Fragment>
+    </>
   );
 }
 
 Todos.propTypes = {
   todos: PropTypes.array.isRequired,
+  activeTab: PropTypes.number.isRequired,
   getTodos: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
   deleteTodo: PropTypes.func.isRequired,
   toggleCompleteTodo: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
@@ -68,7 +66,7 @@ Todos.propTypes = {
 
 const mapStateToProps = (state) => ({
   todos: state.todos.todos,
-  isAuthenticated: state.auth.isAuthenticated,
+  activeTab: state.tabs.activeTab,
   user: state.auth.user,
 });
 

@@ -1,6 +1,6 @@
-from .models import todoMessage
-from .filters import todoMessageFilter
-from .serializers import todoMessageSerializer
+from .models import todoMessage, todoTab
+from .filters import todoMessageFilter, todoTabFilter
+from .serializers import todoMessageSerializer, todoTabSerializer
 
 from rest_framework import viewsets, permissions
 from rest_framework.parsers import MultiPartParser, JSONParser
@@ -16,6 +16,19 @@ class todoMessageViewSet(viewsets.ModelViewSet):
     parser_classes = [JSONParser, MultiPartParser]
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = todoMessageFilter
+
+    def perform_create(self, serializer):
+        serializer.save(
+            owner=self.request.user,
+        )
+
+class todoTabViewSet(viewsets.ModelViewSet):
+    queryset = todoTab.objects.all().order_by('id')
+    serializer_class = todoTabSerializer
+    #permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [JSONParser, MultiPartParser]
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = todoTabFilter
 
     def perform_create(self, serializer):
         serializer.save(
