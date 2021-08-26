@@ -16,13 +16,6 @@ export function Todos(props) {
   return (
     <>
       <Table striped>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>TODO</Table.HeaderCell>
-            <Table.HeaderCell>Created at</Table.HeaderCell>
-            <Table.HeaderCell>&nbsp;</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
         <Table.Body>
           {props.todos.map((todo) => (
             <Table.Row

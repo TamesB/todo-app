@@ -52,7 +52,7 @@ export function TodosForm(props) {
             </Form>
           </>
         )}
-        <Header as="h2">Add Tab</Header>
+        <Header as="h2">Add List</Header>
         <Form onSubmit={onTabSubmit}>
           <Form.Input
             type="tab"
