@@ -29,7 +29,7 @@ export function TodosForm(props) {
   };
 
   const form_padding = {
-    padding: "0 10vw 0 10vw",
+    padding: "0 10vw 3vh 10vw",
   };
 
   return (

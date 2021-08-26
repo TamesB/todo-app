@@ -25,7 +25,7 @@ import { useDidMountEffect } from "../customhooks/useDidMountEffect";
 
 // Alert Options
 const alertOptions = {
-  timeout: 3000,
+  timeout: 2000,
   position: "top center",
 };
 
