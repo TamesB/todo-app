@@ -1,5 +1,7 @@
 # Introduction
-A todo application made with Django REST, React Hooks, Redux, and Semantic UI.
+A web application to create multiple ToDo lists, keeping track of your ToDo's and completing them. Accessible on every device with your personal account.
+Backend: Django REST
+Frontend: React Hooks, Redux, and Semantic UI
 
 ## [Live Demo](http://todoboon.herokuapp.com/)
 
