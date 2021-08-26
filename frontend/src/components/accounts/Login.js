@@ -3,6 +3,7 @@ import { connect, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
+import { createMessage } from "../../actions/messages";
 import {
   Button,
   Divider,
@@ -18,7 +19,6 @@ import { useDidMountEffect } from "../../customhooks/useDidMountEffect.js";
 export function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [userLoading, setUserLoading] = useState(false);
 
   const onChangeUser = (e) => {
     setUsername(e.target.value);
@@ -28,9 +28,15 @@ export function Login(props) {
     setPassword(e.target.value);
   };
 
-  useDidMountEffect(() => {
-    props.login(username, password);
-  }, [userLoading]);
+  const onSubmit = () => {
+    if (!username) {
+      props.createMessage({ passwordsNotMatch: "Fill in username." });
+    } else if (!password) {
+      props.createMessage({ passwordsNotMatch: "Fill in a password." });
+    } else {
+      props.login(username, password);
+    }
+  };
 
   if (props.isAuthenticated) return <Redirect to="/" />;
 
@@ -45,7 +51,7 @@ export function Login(props) {
         style={{ height: "90vh" }}
       >
         <Grid.Column style={{ padding: "0 15vw 0 15vw" }}>
-          <Form onSubmit={() => setUserLoading(true)}>
+          <Form onSubmit={onSubmit}>
             <Form.Input
               icon="user"
               iconPosition="left"
@@ -65,11 +71,12 @@ export function Login(props) {
               value={password}
             />
 
-            {userLoading ? (
-              <Button type="submit" content="Login" loading primary />
-            ) : (
-              <Button type="submit" content="Login" primary />
-            )}
+            <Button
+              type="submit"
+              content="Login"
+              loading={props.userIsLoading}
+              primary
+            />
           </Form>
         </Grid.Column>
 
@@ -100,10 +107,12 @@ export function Login(props) {
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
+  userIsLoading: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  userIsLoading: state.auth.userIsLoading,
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { login, createMessage })(Login);

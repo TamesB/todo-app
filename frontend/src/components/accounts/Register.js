@@ -23,9 +23,15 @@ export function Register(props) {
   const [userLoading, setUserLoading] = useState(false);
 
   // Logic after form submitted (also do check-logic here)
-  useDidMountEffect(() => {
-    if (password !== password2) {
+  const onSubmit = () => {
+    if (!username) {
+      props.createMessage({ passwordsNotMatch: "Fill in username." });
+    } else if (!password) {
+      props.createMessage({ passwordsNotMatch: "Choose a password." });
+    } else if (password !== password2) {
       props.createMessage({ passwordsNotMatch: "Passwords do not match." });
+    } else if (!email) {
+      props.createMessage({ passwordsNotMatch: "Fill in an email." });
     } else {
       // make account
       const newUser = {
@@ -36,7 +42,7 @@ export function Register(props) {
 
       props.register(newUser);
     }
-  }, [userLoading]);
+  };
 
   // Allows input
   const onChangeUsername = (e) => {
@@ -58,7 +64,7 @@ export function Register(props) {
   return (
     <Fragment>
       <Header as="h2">Register</Header>
-      <Form onSubmit={() => setUserLoading(true)}>
+      <Form onSubmit={onSubmit}>
         <Form.Input
           icon="user"
           iconPosition="left"
@@ -96,11 +102,13 @@ export function Register(props) {
           onChange={onChangePassword2}
           value={password2}
         />
-        {userLoading ? (
-          <Button type="submit" content="Register" loading primary />
-        ) : (
-          <Button type="submit" content="Register" primary />
-        )}
+
+        <Button
+          type="submit"
+          content="Register"
+          loading={props.userIsLoading}
+          primary
+        />
       </Form>
     </Fragment>
   );
@@ -109,10 +117,12 @@ export function Register(props) {
 Register.propTypes = {
   register: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
+  userIsLoading: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  userIsLoading: state.auth.userIsLoading,
 });
 
 export default connect(mapStateToProps, { register, createMessage })(Register);
